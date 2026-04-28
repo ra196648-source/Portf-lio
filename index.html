@@ -30,7 +30,7 @@
       }
     </script>
     <!-- Lucide Icons -->
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.412.0/dist/umd/lucide.min.js"></script>
+    <script src="https://unpkg.com/lucide@0.412.0/dist/umd/lucide.min.js"></script>
     <style>
       :root {
         --primary: #8b5cf6;
@@ -451,8 +451,15 @@
 
       // --- Global Utilities ---
       function refreshIcons() {
-          if (window.lucide) {
-              window.lucide.createIcons();
+          try {
+              if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                  lucide.createIcons();
+              } else {
+                  console.warn('Lucide não está pronto ainda...');
+                  setTimeout(refreshIcons, 100);
+              }
+          } catch (e) {
+              console.error('Erro ao carregar ícones:', e);
           }
       }
 
