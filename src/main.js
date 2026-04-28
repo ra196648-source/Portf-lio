@@ -1,5 +1,6 @@
 // Portfolio Logic - Carlos Henrique
 // Vanilla JavaScript implementation
+import './index.css';
 
 // --- Data ---
 const PROJECTS = [
