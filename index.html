@@ -1,13 +1,223 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>Carlos Henrique // Portfólio TADS</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="src/index.css">
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body class="min-h-screen bg-surface selection:bg-primary/30 selection:text-white pb-20 md:pb-0 scroll-smooth overflow-x-hidden">
+    <!-- Scroll Progress Bar -->
+    <div id="progress-bar" class="fixed top-0 left-0 right-0 h-1 vivid-gradient z-[60] origin-left scale-x-0 transition-transform duration-75"></div>
+
+    <!-- Modern Header -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-surface/50 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+          <div class="flex items-center gap-3 cursor-pointer group" onclick="switchTab('inicio')">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center group-hover:rotate-12 transition-transform shadow-lg shadow-primary/20">
+              <i data-lucide="terminal" class="text-white w-6 h-6"></i>
+            </div>
+            <div>
+              <h1 class="font-display tracking-[0.1em] uppercase text-lg font-black text-white leading-none">Carlos Henrique</h1>
+              <span class="text-[10px] font-mono text-secondary uppercase tracking-[0.2em]">TADS // Estudante</span>
+            </div>
+          </div>
+          
+          <nav class="hidden md:flex items-center bg-white/5 px-2 py-1 rounded-full border border-white/10">
+            <button onclick="switchTab('inicio')" data-tab="inicio" class="nav-btn active">Início</button>
+            <button onclick="switchTab('tech')" data-tab="tech" class="nav-btn">Tech</button>
+            <button onclick="switchTab('codigo')" data-tab="codigo" class="nav-btn">Código</button>
+            <button onclick="switchTab('contato')" data-tab="contato" class="nav-btn">Contato</button>
+          </nav>
+          
+          <button onclick="handleDownloadCV()" class="hidden lg:flex items-center gap-2 group bg-white text-surface px-5 py-2.5 rounded-full font-display font-bold text-xs tracking-widest hover:bg-secondary hover:text-white transition-all shadow-xl">
+            <i data-lucide="download" class="w-4 h-4 group-hover:animate-bounce"></i>
+            BAIXAR CV
+          </button>
+        </div>
+    </header>
+
+    <main id="content-area" class="pt-32 pb-40 max-w-7xl mx-auto px-6">
+        <!-- Content will be injected here by JS or handled via visibility -->
+        <div id="tab-inicio" class="tab-content block space-y-24 animate-in">
+            <!-- Hero Section -->
+            <section class="relative min-h-[600px] h-[80vh] rounded-[2.5rem] overflow-hidden group">
+                <div class="absolute inset-0 bg-surface">
+                  <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop" alt="Study Session" class="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0">
+                  <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent"></div>
+                </div>
+
+                <div class="relative h-full flex flex-col justify-end p-8 md:p-16 lg:p-24 space-y-8">
+                  <div class="reveal-on-scroll">
+                    <div class="flex items-center gap-3 mb-2">
+                      <span class="font-display text-[11px] bg-primary/30 text-white border border-primary/40 px-4 py-2 rounded-full tracking-widest font-black uppercase shadow-lg shadow-primary/20">
+                        SISTEMA_ATIVO // TADS-05
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div class="reveal-on-scroll" style="transition-delay: 0.2s;">
+                    <h2 class="font-display text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-[0.9] tracking-tighter uppercase italic">
+                      CARLOS<br>
+                      <span class="text-secondary text-gradient">HENRIQUE</span>
+                    </h2>
+                  </div>
+                  
+                  <div class="flex flex-col md:flex-row gap-8 items-start md:items-end reveal-on-scroll" style="transition-delay: 0.4s;">
+                    <div class="glass-card p-8 border-white/10 max-w-lg">
+                      <p class="text-base text-on-surface-variant leading-relaxed font-medium">
+                        Arquitetando soluções escaláveis e performáticas. Atualmente no <span class="text-white font-black italic">5º Semestre em Análise e Desenvolvimento de Sistemas</span>.
+                      </p>
+                    </div>
+                    
+                    <button onclick="switchTab('tech')" class="vivid-gradient text-white px-8 py-5 rounded-2xl font-display font-black text-sm tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-primary/40 animate-float">
+                      EXPLORAR_STACK
+                    </button>
+                  </div>
+                </div>
+            </section>
+
+            <!-- Quick Status -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-8 flex flex-col justify-between h-56 group reveal-on-scroll">
+                  <div class="bg-primary/20 w-14 h-14 rounded-2xl flex items-center justify-center text-primary group-hover:scale-110 group-hover:rotate-6 transition-all">
+                    <i data-lucide="cpu" class="w-8 h-8"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-display font-bold text-white text-2xl">Hardware & Soft</h3>
+                    <p class="text-xs text-on-surface-variant mt-1">Otimização de sistemas críticos</p>
+                  </div>
+                </div>
+
+                <div class="glass-card p-8 flex flex-col justify-between h-56 bg-gradient-to-br from-primary/10 to-transparent group reveal-on-scroll" style="transition-delay: 0.1s;">
+                  <div class="bg-secondary/20 w-14 h-14 rounded-2xl flex items-center justify-center text-secondary group-hover:scale-110 group-hover:-rotate-6 transition-all">
+                    <i data-lucide="database" class="w-8 h-8"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-display font-bold text-white text-2xl">Data Flow</h3>
+                    <p class="text-xs text-on-surface-variant mt-1">Gestão e modelagem de TBs</p>
+                  </div>
+                </div>
+
+                <div class="glass-card p-8 flex flex-col justify-between h-56 group border-primary/20 reveal-on-scroll" style="transition-delay: 0.2s;">
+                  <div class="bg-white/10 w-14 h-14 rounded-2xl flex items-center justify-center text-white group-hover:scale-110 transition-all">
+                    <i data-lucide="code" class="w-8 h-8"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-display font-bold text-white text-2xl">Clean Code</h3>
+                    <p class="text-xs text-on-surface-variant mt-1">Padrões SOLID e Escalabilidade</p>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-tech" class="tab-content hidden space-y-12 animate-in">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-12">
+                <div>
+                  <h3 class="font-display text-5xl md:text-8xl font-black text-white tracking-tighter leading-none uppercase italic">TECH<br><span class="text-primary text-gradient">STACK</span></h3>
+                  <p class="text-on-surface-variant mt-6 max-w-xl text-lg font-medium">Competências técnicas adquiridas ao longo do curso de TADS, focadas em robustez e eficiência para o mundo real.</p>
+                </div>
+                <div class="flex gap-4">
+                  <div class="glass-card px-10 py-6 text-center border-primary/30">
+                    <span class="block text-4xl font-black text-white ring-text-primary">05º</span>
+                    <span class="text-[12px] text-on-surface-variant uppercase font-bold tracking-[0.2em]">Semestre</span>
+                  </div>
+                </div>
+            </div>
+
+            <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Skills will be injected by JS -->
+            </div>
+        </div>
+
+        <div id="tab-codigo" class="tab-content hidden space-y-16 animate-in">
+            <div class="text-center space-y-6">
+                <div class="vivid-gradient w-20 h-2 mx-auto rounded-full mb-8"></div>
+                <h3 class="font-display text-6xl md:text-9xl font-black text-white tracking-widest uppercase italic">ARQUIVO</h3>
+                <p class="text-on-surface-variant text-xl max-w-2xl mx-auto font-medium">Soluções desenvolvidas com rigor técnico, aplicando conceitos avançados de TADS.</p>
+            </div>
+
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Projects will be injected by JS -->
+            </div>
+        </div>
+
+        <div id="tab-contato" class="tab-content hidden space-y-20 animate-in">
+            <div class="glass-card p-16 relative overflow-hidden vivid-gradient shadow-[0_0_100px_rgba(139,92,246,0.3)]">
+                <div class="relative z-10 flex flex-col items-center text-center space-y-10">
+                  <div class="w-28 h-28 rounded-[2rem] bg-white/10 backdrop-blur-3xl flex items-center justify-center p-1 shadow-2xl">
+                    <div class="w-full h-full bg-white rounded-[1.8rem] flex items-center justify-center shadow-inner">
+                      <i data-lucide="mail" class="text-primary w-12 h-12"></i>
+                    </div>
+                  </div>
+                  <div class="space-y-6">
+                    <h3 class="font-display text-6xl md:text-8xl font-black text-white tracking-tighter leading-none italic uppercase">CONEXÃO<br>TERMINAL</h3>
+                    <p class="text-white/90 max-w-2xl mx-auto text-xl font-medium">Estou disponível para novos desafios, parcerias acadêmicas ou networking no setor de TI.</p>
+                  </div>
+                  <a href="mailto:CarlosTayzer@gmail.com" class="bg-white text-surface px-12 py-6 rounded-2xl font-display font-black text-2xl hover:scale-105 transition-all shadow-2xl active:scale-95 hover:bg-secondary hover:text-white inline-block text-center">
+                    CarlosTayzer@gmail.com
+                  </a>
+                </div>
+                <div class="absolute top-0 left-0 w-96 h-96 bg-secondary/40 blur-[150px] rounded-full -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+                <div class="absolute bottom-0 right-0 w-96 h-96 bg-primary/40 blur-[150px] rounded-full translate-x-1/2 translate-y-1/2 animate-pulse"></div>
+            </div>
+
+            <div id="socials-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Socials will be injected by JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modern Footer -->
+    <footer class="w-full bg-surface-container-lowest border-t border-white/5 py-16">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
+          <div class="flex items-center gap-4">
+             <div class="w-3 h-3 rounded-full bg-secondary animate-pulse shadow-[0_0_10px_#06b6d4]"></div>
+             <p class="font-mono text-xs tracking-[0.3em] uppercase text-on-surface-variant font-black">
+               ESTÁGIO_SISTEMAS // TADS_05 // 2024
+             </p>
+          </div>
+          <div class="flex gap-4">
+            <a href="https://github.com/ra196648-source" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-2xl glass-card flex items-center justify-center hover:bg-white hover:text-surface transition-all hover:scale-110"><i data-lucide="github" class="w-5 h-5"></i></a>
+            <a href="https://www.linkedin.com/in/carlos-henrique-da-silva-frança-1563423b4" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-2xl glass-card flex items-center justify-center hover:bg-white hover:text-surface transition-all hover:scale-110"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+            <a href="https://instagram.com/eucarlos.yx" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-2xl glass-card flex items-center justify-center hover:bg-white hover:text-surface transition-all hover:scale-110"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+          </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Nav Bar -->
+    <nav class="fixed bottom-0 left-0 w-full md:hidden z-50 bg-surface/60 backdrop-blur-3xl border-t border-white/10 px-8 py-5">
+        <div class="flex justify-around items-center">
+            <button onclick="switchTab('inicio')" data-tab="inicio" class="mobile-nav-btn active">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="font-display text-[9px] font-black uppercase tracking-widest">Início</span>
+                <div class="active-indicator"></div>
+            </button>
+            <button onclick="switchTab('tech')" data-tab="tech" class="mobile-nav-btn">
+                <i data-lucide="cpu" class="w-6 h-6"></i>
+                <span class="font-display text-[9px] font-black uppercase tracking-widest">Tech</span>
+                <div class="active-indicator"></div>
+            </button>
+            <button onclick="switchTab('codigo')" data-tab="codigo" class="mobile-nav-btn">
+                <i data-lucide="code" class="w-6 h-6"></i>
+                <span class="font-display text-[9px] font-black uppercase tracking-widest">Código</span>
+                <div class="active-indicator"></div>
+            </button>
+            <button onclick="switchTab('contato')" data-tab="contato" class="mobile-nav-btn">
+                <i data-lucide="mail" class="w-6 h-6"></i>
+                <span class="font-display text-[9px] font-black uppercase tracking-widest">Contato</span>
+                <div class="active-indicator"></div>
+            </button>
+        </div>
+    </nav>
+
+    <script type="module" src="src/main.js"></script>
   </body>
 </html>
 
