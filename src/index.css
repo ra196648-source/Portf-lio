@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #8b5cf6;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #4c1d95;
+  --color-on-primary-container: #ede9fe;
+  
+  --color-secondary: #06b6d4;
+  --color-on-secondary: #083344;
+  --color-secondary-container: #164e63;
+  --color-on-secondary-container: #cffafe;
+
+  --color-surface: #0a0a0c;
+  --color-on-surface: #f8fafc;
+  --color-on-surface-variant: #94a3b8;
+  
+  --color-surface-container-lowest: #050505;
+  --color-surface-container-low: #0f172a;
+  --color-surface-container: #1e1b4b;
+  --color-surface-container-high: #312e81;
+  --color-surface-container-highest: #4338ca;
+  
+  --color-outline: #334155;
+  --color-outline-variant: #1e293b;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface font-sans antialiased selection:bg-primary/40 selection:text-white;
+  }
+}
+
+.glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl transition-all duration-500;
+}
+
+.glass-card:hover {
+    @apply bg-white/10 border-white/20 shadow-[0_0_30px_rgba(139,92,246,0.15)];
+}
+
+.vivid-gradient {
+    background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+}
+
+.text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
