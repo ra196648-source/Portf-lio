@@ -10,9 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="src/index.css">
+    <link rel="stylesheet" href="/src/index.css">
   </head>
-  <body class="min-h-screen bg-surface selection:bg-primary/30 selection:text-white pb-20 md:pb-0 scroll-smooth overflow-x-hidden">
+  <body class="min-h-screen bg-[#0a0a0c] selection:bg-primary/30 selection:text-white pb-20 md:pb-0 scroll-smooth overflow-x-hidden text-white">
+    <!-- Fallback Loader -->
+    <div id="loader" class="fixed inset-0 z-[100] bg-[#0a0a0c] flex items-center justify-center transition-opacity duration-500">
+        <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
     <!-- Scroll Progress Bar -->
     <div id="progress-bar" class="fixed top-0 left-0 right-0 h-1 vivid-gradient z-[60] origin-left scale-x-0 transition-transform duration-75"></div>
 
@@ -217,7 +222,7 @@
         </div>
     </nav>
 
-    <script type="module" src="src/main.js"></script>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
 

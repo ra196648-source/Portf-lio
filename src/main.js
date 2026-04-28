@@ -74,16 +74,140 @@ const SOCIALS = [
   }
 ];
 
+function renderSkills() {
+    const container = document.getElementById('skills-grid');
+    if (!container) return;
+
+    container.innerHTML = SKILLS.map((skill, idx) => `
+        <div class="glass-card p-10 flex flex-col gap-8 group reveal-on-scroll" style="transition-delay: ${idx * 0.05}s">
+            <div class="flex justify-between items-center">
+                <div class="p-5 rounded-2xl transition-all group-hover:scale-110 ${skill.color === 'secondary' ? 'bg-secondary/20 text-secondary shadow-lg shadow-secondary/10' : 'bg-primary/20 text-primary shadow-lg shadow-primary/10'}">
+                    <i data-lucide="${skill.icon}" class="w-8 h-8"></i>
+                </div>
+                <span class="font-mono text-4xl text-white/5 font-black italic select-none">0${idx + 1}</span>
+            </div>
+            
+            <div class="space-y-4">
+                <h4 class="font-display text-2xl font-bold text-white group-hover:text-primary transition-colors">
+                    ${skill.name}
+                </h4>
+                <p class="text-on-surface-variant leading-relaxed font-medium">
+                    ${skill.description}
+                </p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderProjects() {
+    const container = document.getElementById('projects-grid');
+    if (!container) return;
+
+    container.innerHTML = PROJECTS.map((project, idx) => `
+        <div class="glass-card p-1.5 bg-gradient-to-br from-primary/30 via-white/5 to-secondary/30 group overflow-hidden reveal-on-scroll" style="transition-delay: ${idx * 0.1}s">
+            <div class="bg-surface-container-low rounded-[22px] p-10 h-full flex flex-col">
+                <div class="flex justify-between items-start mb-12">
+                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:bg-primary/20 transition-all">
+                    <i data-lucide="${project.icon}" class="${project.icon === 'code' || project.icon === 'cpu' ? 'text-secondary' : 'text-primary'} w-9 h-9"></i>
+                </div>
+                <span class="font-mono text-xs text-primary bg-primary/10 px-4 py-2 rounded-full font-black tracking-widest border border-primary/20">
+                    ${project.systemId}
+                </span>
+                </div>
+                
+                <h4 class="font-display text-4xl font-black text-white mb-6 group-hover:text-primary transition-colors tracking-tight">${project.title}</h4>
+                <p class="text-on-surface-variant mb-14 flex-grow leading-relaxed text-lg font-medium">
+                ${project.description}
+                </p>
+                
+                <div class="grid grid-cols-2 gap-6">
+                ${project.metrics.map(metric => `
+                    <div class="p-6 rounded-2xl bg-white/5 border border-white/5 group-hover:bg-white/10 transition-all">
+                    <p class="text-[11px] uppercase tracking-[0.3em] font-black text-on-surface-variant/60 mb-2">
+                        ${metric.label}
+                    </p>
+                    <p class="font-display text-2xl font-black ${metric.color === 'secondary' ? 'text-secondary' : 'text-primary'}">
+                        ${metric.value}
+                    </p>
+                    </div>
+                `).join('')}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderSocials() {
+    const container = document.getElementById('socials-grid');
+    if (!container) return;
+
+    container.innerHTML = SOCIALS.map((social, idx) => `
+        <a 
+            href="${social.url}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="glass-card p-10 flex flex-col items-center gap-8 transition-all group border-white/5 ${social.border} reveal-on-scroll"
+            style="transition-delay: ${idx * 0.1}s"
+        >
+            <div class="p-6 rounded-3xl bg-white/5 group-hover:scale-110 group-hover:rotate-12 transition-all ${social.color} group-hover:text-white shadow-xl">
+                <i data-lucide="${social.icon}" class="w-12 h-12"></i>
+            </div>
+            <div class="text-center space-y-2">
+                <span class="block font-display font-black text-white text-2xl uppercase tracking-tighter">${social.label}</span>
+                <span class="text-xs text-on-surface-variant font-mono uppercase tracking-[0.3em] bg-white/5 px-4 py-1 rounded-full">${social.handle}</span>
+            </div>
+        </a>
+    `).join('');
+}
+
+// --- Global Utility ---
+function setupRevealOnScroll() {
+    const reveals = document.querySelectorAll('.reveal-on-scroll');
+    reveals.forEach(reveal => {
+        const windowHeight = window.innerHeight;
+        const revealTop = reveal.getBoundingClientRect().top;
+        const revealPoint = 150;
+
+        if (revealTop < windowHeight - revealPoint) {
+            reveal.classList.add('visible');
+        }
+    });
+}
+
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
-    renderSkills();
-    renderProjects();
-    renderSocials();
-    setupScrollEffects();
-    
-    // Initialize Lucide icons
-    if (window.lucide) {
-        window.lucide.createIcons();
+    try {
+        renderSkills();
+        renderProjects();
+        renderSocials();
+        
+        const progressBar = document.getElementById('progress-bar');
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
+            if (progressBar) {
+                progressBar.style.transform = `scaleX(${scrolled})`;
+            }
+            setupRevealOnScroll();
+        });
+
+        // Initialize Lucide icons
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+
+        // Initial reveal check
+        setupRevealOnScroll();
+
+        // Remove loader
+        const loader = document.getElementById('loader');
+        if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 500);
+        }
+    } catch (error) {
+        console.error('Erro na inicialização:', error);
+        const loader = document.getElementById('loader');
+        if (loader) loader.innerHTML = `<div class="text-white text-center p-8 bg-red-900/20 rounded-2xl border border-red-500">Erro ao carregar arquivos: ${error.message}</div>`;
     }
 });
 
@@ -154,114 +278,6 @@ COMPETÊNCIAS:
     window.URL.revokeObjectURL(url);
 };
 
-function renderSkills() {
-    const container = document.getElementById('skills-grid');
-    if (!container) return;
-
-    container.innerHTML = SKILLS.map((skill, idx) => `
-        <div class="glass-card p-10 flex flex-col gap-8 group reveal-on-scroll" style="transition-delay: ${idx * 0.05}s">
-            <div class="flex justify-between items-center">
-                <div class="p-5 rounded-2xl transition-all group-hover:scale-110 ${skill.color === 'secondary' ? 'bg-secondary/20 text-secondary shadow-lg shadow-secondary/10' : 'bg-primary/20 text-primary shadow-lg shadow-primary/10'}">
-                    <i data-lucide="${skill.icon}" class="w-8 h-8"></i>
-                </div>
-                <span class="font-mono text-4xl text-white/5 font-black italic select-none">0${idx + 1}</span>
-            </div>
-            
-            <div class="space-y-4">
-                <h4 class="font-display text-2xl font-bold text-white group-hover:text-primary transition-colors">
-                    ${skill.name}
-                </h4>
-                <p class="text-on-surface-variant leading-relaxed font-medium">
-                    ${skill.description}
-                </p>
-            </div>
-        </div>
-    `).join('');
-}
-
-function renderProjects() {
-    const container = document.getElementById('projects-grid');
-    if (!container) return;
-
-    container.innerHTML = PROJECTS.map((project, idx) => `
-        <div class="glass-card p-1.5 bg-gradient-to-br from-primary/30 via-white/5 to-secondary/30 group overflow-hidden reveal-on-scroll">
-            <div class="bg-surface-container-low rounded-[22px] p-10 h-full flex flex-col">
-                <div class="flex justify-between items-start mb-12">
-                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:bg-primary/20 transition-all">
-                    <i data-lucide="${project.icon === 'code' ? 'code' : project.icon === 'database' ? 'database' : 'cpu'}" class="${project.icon === 'code' || project.icon === 'cpu' ? 'text-secondary' : 'text-primary'} w-9 h-9"></i>
-                </div>
-                <span class="font-mono text-xs text-primary bg-primary/10 px-4 py-2 rounded-full font-black tracking-widest border border-primary/20">
-                    ${project.systemId}
-                </span>
-                </div>
-                
-                <h4 class="font-display text-4xl font-black text-white mb-6 group-hover:text-primary transition-colors tracking-tight">${project.title}</h4>
-                <p class="text-on-surface-variant mb-14 flex-grow leading-relaxed text-lg font-medium">
-                ${project.description}
-                </p>
-                
-                <div class="grid grid-cols-2 gap-6">
-                ${project.metrics.map(metric => `
-                    <div class="p-6 rounded-2xl bg-white/5 border border-white/5 group-hover:bg-white/10 transition-all">
-                    <p class="text-[11px] uppercase tracking-[0.3em] font-black text-on-surface-variant/60 mb-2">
-                        ${metric.label}
-                    </p>
-                    <p class="font-display text-2xl font-black ${metric.color === 'secondary' ? 'text-secondary' : 'text-primary'}">
-                        ${metric.value}
-                    </p>
-                    </div>
-                `).join('')}
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-function renderSocials() {
-    const container = document.getElementById('socials-grid');
-    if (!container) return;
-
-    container.innerHTML = SOCIALS.map((social) => `
-        <a 
-            href="${social.url}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="glass-card p-10 flex flex-col items-center gap-8 transition-all group border-white/5 ${social.border}"
-        >
-            <div class="p-6 rounded-3xl bg-white/5 group-hover:scale-110 group-hover:rotate-12 transition-all ${social.color} group-hover:text-white shadow-xl">
-                <i data-lucide="${social.icon}" class="w-12 h-12"></i>
-            </div>
-            <div class="text-center space-y-2">
-                <span class="block font-display font-black text-white text-2xl uppercase tracking-tighter">${social.label}</span>
-                <span class="text-xs text-on-surface-variant font-mono uppercase tracking-[0.3em] bg-white/5 px-4 py-1 rounded-full">${social.handle}</span>
-            </div>
-        </a>
-    `).join('');
-}
-
 function setupScrollEffects() {
-    const progressBar = document.getElementById('progress-bar');
-    
-    window.addEventListener('scroll', () => {
-        const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
-        if (progressBar) {
-            progressBar.style.transform = `scaleX(${scrolled})`;
-        }
-        setupRevealOnScroll();
-    });
-
-    setupRevealOnScroll();
-}
-
-function setupRevealOnScroll() {
-    const reveals = document.querySelectorAll('.reveal-on-scroll');
-    reveals.forEach(reveal => {
-        const windowHeight = window.innerHeight;
-        const revealTop = reveal.getBoundingClientRect().top;
-        const revealPoint = 150;
-
-        if (revealTop < windowHeight - revealPoint) {
-            reveal.classList.add('visible');
-        }
-    });
+    // This is now handled in DOMContentLoaded
 }
