@@ -30,8 +30,17 @@
       }
     </script>
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.412.0/dist/umd/lucide.min.js"></script>
     <style>
+      :root {
+        --primary: #8b5cf6;
+        --secondary: #06b6d4;
+        --surface: #0a0a0c;
+      }
+      body {
+        background-color: var(--surface);
+        color: white;
+      }
       .vivid-gradient {
         background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
       }
@@ -52,8 +61,8 @@
         transition: all 0.8s cubic-bezier(0.21, 0.47, 0.32, 0.98);
       }
       .reveal-on-scroll.visible {
-        opacity: 1;
-        transform: translateY(0);
+        opacity: 1 !important;
+        transform: translateY(0) !important;
       }
       .nav-btn {
         cursor: pointer;
@@ -75,11 +84,15 @@
         animation: fadeIn 0.6s ease-out forwards;
       }
       .tab-content.active {
-        display: block;
+        display: block !important;
       }
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
+      }
+      /* Ensure icons have dimensions */
+      svg[data-lucide] {
+        display: inline-block;
       }
     </style>
   </head>
@@ -377,8 +390,8 @@
           container.innerHTML = SKILLS.map((skill, idx) => `
               <div class="glass-card p-10 flex flex-col gap-8 group reveal-on-scroll" style="transition-delay: ${idx * 0.05}s">
                   <div class="flex justify-between items-center">
-                      <div class="p-5 rounded-2xl transition-all group-hover:scale-110 ${skill.color === 'secondary' ? 'bg-secondary/20 text-secondary' : 'bg-primary/20 text-primary'}">
-                          <i data-lucide="${skill.icon}" class="w-8 h-8"></i>
+                      <div class="p-5 rounded-2xl transition-all group-hover:scale-110 ${skill.color === 'secondary' ? 'bg-secondary/20 text-secondary' : 'bg-primary/20 text-primary'} flex items-center justify-center">
+                          <i data-lucide="${skill.icon}" class="w-8 h-8 text-white"></i>
                       </div>
                       <span class="font-mono text-4xl text-white/5 font-black italic select-none">0${idx + 1}</span>
                   </div>
@@ -388,6 +401,7 @@
                   </div>
               </div>
           `).join('');
+          refreshIcons();
       }
 
       function renderProjects() {
@@ -398,7 +412,7 @@
                   <div class="bg-gray-900/60 rounded-[22px] p-10 h-full flex flex-col">
                       <div class="flex justify-between items-start mb-12">
                           <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:bg-primary/20 transition-all">
-                              <i data-lucide="${project.icon}" class="text-primary w-9 h-9"></i>
+                              <i data-lucide="${project.icon}" class="text-white w-9 h-9"></i>
                           </div>
                           <span class="font-mono text-xs text-primary bg-primary/10 px-4 py-2 rounded-full font-black tracking-widest border border-primary/20">${project.systemId}</span>
                       </div>
@@ -415,6 +429,7 @@
                   </div>
               </div>
           `).join('');
+          refreshIcons();
       }
 
       function renderSocials() {
@@ -422,8 +437,8 @@
           if (!container) return;
           container.innerHTML = SOCIALS.map((social, idx) => `
               <a href="${social.url}" target="_blank" rel="noopener noreferrer" class="glass-card p-10 flex flex-col items-center gap-8 transition-all group border-white/5 ${social.border} reveal-on-scroll" style="transition-delay: ${idx * 0.1}s">
-                  <div class="p-6 rounded-3xl bg-white/5 group-hover:scale-110 group-hover:rotate-12 transition-all ${social.color} group-hover:text-white shadow-xl">
-                      <i data-lucide="${social.icon}" class="w-12 h-12"></i>
+                  <div class="p-6 rounded-3xl bg-white/5 group-hover:scale-110 group-hover:rotate-12 transition-all ${social.color} group-hover:text-white shadow-xl flex items-center justify-center min-w-[80px] min-h-[80px]">
+                      <i data-lucide="${social.icon}" class="w-12 h-12 text-white"></i>
                   </div>
                   <div class="text-center space-y-2">
                       <span class="block font-display font-black text-white text-2xl uppercase tracking-tighter">${social.label}</span>
@@ -431,9 +446,16 @@
                   </div>
               </a>
           `).join('');
+          refreshIcons();
       }
 
       // --- Global Utilities ---
+      function refreshIcons() {
+          if (window.lucide) {
+              window.lucide.createIcons();
+          }
+      }
+
       function setupRevealOnScroll() {
           const reveals = document.querySelectorAll('.reveal-on-scroll');
           reveals.forEach(reveal => {
@@ -468,7 +490,7 @@
 
           window.scrollTo({ top: 0, behavior: 'smooth' });
           setTimeout(() => {
-              if (window.lucide) window.lucide.createIcons();
+              refreshIcons();
               setupRevealOnScroll();
           }, 50);
       };
@@ -503,7 +525,7 @@
                   setupRevealOnScroll();
               });
 
-              if (window.lucide) window.lucide.createIcons();
+              refreshIcons();
               setupRevealOnScroll();
 
               const loader = document.getElementById('loader');
