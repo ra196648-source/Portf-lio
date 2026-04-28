@@ -1,6 +1,5 @@
 // Portfolio Logic - Carlos Henrique
-// Vanilla JavaScript implementation
-import './index.css';
+// Vanilla JavaScript implementation for Static Hosting
 
 // --- Data ---
 const PROJECTS = [
@@ -75,26 +74,21 @@ const SOCIALS = [
   }
 ];
 
+// --- Rendering Functions ---
 function renderSkills() {
     const container = document.getElementById('skills-grid');
     if (!container) return;
-
     container.innerHTML = SKILLS.map((skill, idx) => `
         <div class="glass-card p-10 flex flex-col gap-8 group reveal-on-scroll" style="transition-delay: ${idx * 0.05}s">
             <div class="flex justify-between items-center">
-                <div class="p-5 rounded-2xl transition-all group-hover:scale-110 ${skill.color === 'secondary' ? 'bg-secondary/20 text-secondary shadow-lg shadow-secondary/10' : 'bg-primary/20 text-primary shadow-lg shadow-primary/10'}">
+                <div class="p-5 rounded-2xl transition-all group-hover:scale-110 ${skill.color === 'secondary' ? 'bg-secondary/20 text-secondary' : 'bg-primary/20 text-primary'}">
                     <i data-lucide="${skill.icon}" class="w-8 h-8"></i>
                 </div>
                 <span class="font-mono text-4xl text-white/5 font-black italic select-none">0${idx + 1}</span>
             </div>
-            
             <div class="space-y-4">
-                <h4 class="font-display text-2xl font-bold text-white group-hover:text-primary transition-colors">
-                    ${skill.name}
-                </h4>
-                <p class="text-on-surface-variant leading-relaxed font-medium">
-                    ${skill.description}
-                </p>
+                <h4 class="font-display text-2xl font-bold text-white group-hover:text-primary transition-colors">${skill.name}</h4>
+                <p class="text-on-surface-variant leading-relaxed font-medium">${skill.description}</p>
             </div>
         </div>
     `).join('');
@@ -103,35 +97,24 @@ function renderSkills() {
 function renderProjects() {
     const container = document.getElementById('projects-grid');
     if (!container) return;
-
     container.innerHTML = PROJECTS.map((project, idx) => `
         <div class="glass-card p-1.5 bg-gradient-to-br from-primary/30 via-white/5 to-secondary/30 group overflow-hidden reveal-on-scroll" style="transition-delay: ${idx * 0.1}s">
-            <div class="bg-surface-container-low rounded-[22px] p-10 h-full flex flex-col">
+            <div class="bg-gray-900/60 rounded-[22px] p-10 h-full flex flex-col">
                 <div class="flex justify-between items-start mb-12">
-                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:bg-primary/20 transition-all">
-                    <i data-lucide="${project.icon}" class="${project.icon === 'code' || project.icon === 'cpu' ? 'text-secondary' : 'text-primary'} w-9 h-9"></i>
-                </div>
-                <span class="font-mono text-xs text-primary bg-primary/10 px-4 py-2 rounded-full font-black tracking-widest border border-primary/20">
-                    ${project.systemId}
-                </span>
-                </div>
-                
-                <h4 class="font-display text-4xl font-black text-white mb-6 group-hover:text-primary transition-colors tracking-tight">${project.title}</h4>
-                <p class="text-on-surface-variant mb-14 flex-grow leading-relaxed text-lg font-medium">
-                ${project.description}
-                </p>
-                
-                <div class="grid grid-cols-2 gap-6">
-                ${project.metrics.map(metric => `
-                    <div class="p-6 rounded-2xl bg-white/5 border border-white/5 group-hover:bg-white/10 transition-all">
-                    <p class="text-[11px] uppercase tracking-[0.3em] font-black text-on-surface-variant/60 mb-2">
-                        ${metric.label}
-                    </p>
-                    <p class="font-display text-2xl font-black ${metric.color === 'secondary' ? 'text-secondary' : 'text-primary'}">
-                        ${metric.value}
-                    </p>
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:bg-primary/20 transition-all">
+                        <i data-lucide="${project.icon}" class="text-primary w-9 h-9"></i>
                     </div>
-                `).join('')}
+                    <span class="font-mono text-xs text-primary bg-primary/10 px-4 py-2 rounded-full font-black tracking-widest border border-primary/20">${project.systemId}</span>
+                </div>
+                <h4 class="font-display text-4xl font-black text-white mb-6 group-hover:text-primary transition-colors tracking-tight">${project.title}</h4>
+                <p class="text-on-surface-variant mb-14 flex-grow leading-relaxed text-lg font-medium">${project.description}</p>
+                <div class="grid grid-cols-2 gap-6">
+                    ${project.metrics.map(metric => `
+                        <div class="p-6 rounded-2xl bg-white/5 border border-white/5 group-hover:bg-white/10 transition-all">
+                            <p class="text-[11px] uppercase tracking-[0.3em] font-black text-on-surface-variant/60 mb-2">${metric.label}</p>
+                            <p class="font-display text-2xl font-black ${metric.color === 'secondary' ? 'text-secondary' : 'text-primary'}">${metric.value}</p>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         </div>
@@ -141,15 +124,8 @@ function renderProjects() {
 function renderSocials() {
     const container = document.getElementById('socials-grid');
     if (!container) return;
-
     container.innerHTML = SOCIALS.map((social, idx) => `
-        <a 
-            href="${social.url}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="glass-card p-10 flex flex-col items-center gap-8 transition-all group border-white/5 ${social.border} reveal-on-scroll"
-            style="transition-delay: ${idx * 0.1}s"
-        >
+        <a href="${social.url}" target="_blank" rel="noopener noreferrer" class="glass-card p-10 flex flex-col items-center gap-8 transition-all group border-white/5 ${social.border} reveal-on-scroll" style="transition-delay: ${idx * 0.1}s">
             <div class="p-6 rounded-3xl bg-white/5 group-hover:scale-110 group-hover:rotate-12 transition-all ${social.color} group-hover:text-white shadow-xl">
                 <i data-lucide="${social.icon}" class="w-12 h-12"></i>
             </div>
@@ -161,71 +137,31 @@ function renderSocials() {
     `).join('');
 }
 
-// --- Global Utility ---
+// --- Global Utilities ---
 function setupRevealOnScroll() {
     const reveals = document.querySelectorAll('.reveal-on-scroll');
     reveals.forEach(reveal => {
         const windowHeight = window.innerHeight;
         const revealTop = reveal.getBoundingClientRect().top;
-        const revealPoint = 150;
-
-        if (revealTop < windowHeight - revealPoint) {
+        if (revealTop < windowHeight - 100) {
             reveal.classList.add('visible');
         }
     });
 }
 
-// --- Initialization ---
-document.addEventListener('DOMContentLoaded', () => {
-    try {
-        renderSkills();
-        renderProjects();
-        renderSocials();
-        
-        const progressBar = document.getElementById('progress-bar');
-        window.addEventListener('scroll', () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
-            if (progressBar) {
-                progressBar.style.transform = `scaleX(${scrolled})`;
-            }
-            setupRevealOnScroll();
-        });
-
-        // Initialize Lucide icons
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-
-        // Initial reveal check
-        setupRevealOnScroll();
-
-        // Remove loader
-        const loader = document.getElementById('loader');
-        if (loader) {
-            loader.style.opacity = '0';
-            setTimeout(() => loader.remove(), 500);
-        }
-    } catch (error) {
-        console.error('Erro na inicialização:', error);
-        const loader = document.getElementById('loader');
-        if (loader) loader.innerHTML = `<div class="text-white text-center p-8 bg-red-900/20 rounded-2xl border border-red-500">Erro ao carregar arquivos: ${error.message}</div>`;
-    }
-});
-
-// --- Functions ---
+// Global functions for HTML access
 window.switchTab = (tabId) => {
-    // Update Content
     document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.add('hidden');
-        content.classList.remove('block');
+        content.classList.remove('active');
+        content.style.display = 'none'; // Ensure it's hidden
     });
+    
     const target = document.getElementById(`tab-${tabId}`);
     if (target) {
-        target.classList.remove('hidden');
-        target.classList.add('block');
+        target.classList.add('active');
+        target.style.display = 'block'; // Use block for visible tabs
     }
 
-    // Update Nav Buttons
     document.querySelectorAll('[data-tab]').forEach(btn => {
         if (btn.getAttribute('data-tab') === tabId) {
             btn.classList.add('active');
@@ -234,40 +170,15 @@ window.switchTab = (tabId) => {
         }
     });
 
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // Reset Lucide icons for new content
     setTimeout(() => {
         if (window.lucide) window.lucide.createIcons();
-        setupRevealOnScroll(); // Re-trigger reveal check
-    }, 100);
+        setupRevealOnScroll();
+    }, 50);
 };
 
 window.handleDownloadCV = () => {
-    const cvContent = `
-CARLOS HENRIQUE
-Tecnologia em Análise e Desenvolvimento de Sistemas (TADS) - 5º Semestre
-
-CONTATO:
-Email: CarlosTayzer@gmail.com
-LinkedIn: linkedin.com/in/carlos-henrique-da-silva-frança-1563423b4
-GitHub: github.com/ra196648-source
-Instagram: @eucarlos.yx
-
-RESUMO:
-Focado em arquitetura de sistemas e performance. Atualmente desenvolvendo competências 
-complexas em análise e projeto de sistemas, focado em robustez e eficiência.
-
-COMPETÊNCIAS:
-- Algoritmos & Lógica
-- Programação Orientada a Objetos (Java/C#)
-- Banco de Dados (SQL Server/Postgres/NoSQL)
-- Engenharia de Requisitos
-- Desenvolvimento Web & Mobile
-- Infraestrutura & Redes
-    `;
-
+    const cvContent = `CARLOS HENRIQUE\n5º Semestre TADS\n\nContato: CarlosTayzer@gmail.com`;
     const blob = new Blob([cvContent], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -279,6 +190,36 @@ COMPETÊNCIAS:
     window.URL.revokeObjectURL(url);
 };
 
-function setupScrollEffects() {
-    // This is now handled in DOMContentLoaded
-}
+// --- Initialization ---
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        renderSkills();
+        renderProjects();
+        renderSocials();
+        
+        const progressBar = document.getElementById('progress-bar');
+        window.addEventListener('scroll', () => {
+            const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (totalScrollHeight > 0) {
+                const scrolled = (window.scrollY / totalScrollHeight);
+                if (progressBar) progressBar.style.transform = `scaleX(${scrolled})`;
+            }
+            setupRevealOnScroll();
+        });
+
+        if (window.lucide) window.lucide.createIcons();
+        setupRevealOnScroll();
+
+        const loader = document.getElementById('loader');
+        if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 500);
+        }
+        
+        // Ensure "inicio" is active by default
+        window.switchTab('inicio');
+        
+    } catch (error) {
+        console.error('Erro na inicialização:', error);
+    }
+});

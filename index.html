@@ -8,8 +8,80 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CDN for simple static hosting -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#8b5cf6',
+              secondary: '#06b6d4',
+              surface: '#0a0a0c',
+              'surface-container-low': '#16161a',
+              'on-surface-variant': '#94a3b8',
+            },
+            fontFamily: {
+              display: ['Space Grotesk', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      .vivid-gradient {
+        background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+      }
+      .text-gradient {
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 1.5rem;
+      }
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.21, 0.47, 0.32, 0.98);
+      }
+      .reveal-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .nav-btn {
+        cursor: pointer;
+        padding: 0.5rem 1.5rem;
+        border-radius: 9999px;
+        font-weight: 700;
+        transition: all 0.3s;
+        color: #94a3b8;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+      }
+      .nav-btn.active {
+        background: #8b5cf6;
+        color: white;
+        box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.3);
+      }
+      .tab-content {
+        display: none;
+        animation: fadeIn 0.6s ease-out forwards;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
   </head>
   <body class="min-h-screen bg-[#0a0a0c] selection:bg-primary/30 selection:text-white pb-20 md:pb-0 scroll-smooth overflow-x-hidden text-white">
     <!-- Fallback Loader -->
@@ -221,7 +293,7 @@
         </div>
     </nav>
 
-    <script type="module" src="/src/main.js"></script>
+    <script src="src/main.js"></script>
   </body>
 </html>
 
